@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Input & Button Styles */
+        .input-field {
+            border: 1px solid #d1d5db;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: #0084ff;
+            box-shadow: 0 0 0 3px rgba(0, 132, 255, 0.1);
+        }
+        .btn-primary {
+            background-color: #0084ff;
+            transition: background-color 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: #0076e5;
+        }
+
+        /* Page Handling */
+        .page {
+            display: none;
+            width: 100%;
+            height: 100vh;
+        }
+        .page.active {
+            display: block;
+        }
+
+        /* Centered Layout for Auth Pages */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .auth-box {
+            width: 100%;
+            max-width: 28rem; /* max-w-md */
+        }
+
+        /* Dashboard Specifics */
+        .sidebar-bg {
+            background-color: #ded6d6; /* Matches the beige/grey tone in image */
+        }
+        .nav-item.active {
+            background-color: white;
+            color: black;
+            font-weight: 600;
+            border-radius: 0.5rem;
+        }
+        .nav-item {
+            color: #4b5563;
+            transition: all 0.2s;
+        }
+        .nav-item:hover:not(.active) {
+            background-color: rgba(255,255,255,0.5);
+            color: black;
+        }
+        
+        /* Table Styles */
+        .status-pill {
+            background-color: #e0f2fe; /* light blue */
+            color: #0284c7; /* blue 600 */
+        }
+        .team-pill {
+            background-color: #dbeafe;
+            color: #1e40af;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            margin-right: 4px;
+        }
+        .checkbox-custom {
+            accent-color: #0084ff;
+            width: 16px;
+            height: 16px;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8; 
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Container for all application screens -->
+    <div id="app-container">
+        
+        <!-- Sign Up Screen -->
+        <div id="signup-page" class="page active">
+            <div class="auth-container">
+                <div class="auth-box">
+                    <h1 class="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-12">
+                        GOUNI Staff Management System
+                    </h1>
+
+                    <form id="signup-form" class="space-y-4">
+                        <div>
+                            <input type="email" id="signup-email" placeholder="Enter GO Email" required
+                                class="input-field w-full px-4 py-3 rounded-lg text-gray-700 placeholder-gray-400">
+                        </div>
+                        <div>
+                            <input type="text" id="signup-staffId" placeholder="Enter GO ID" required
+                                class="input-field w-full px-4 py-3 rounded-lg text-gray-700 placeholder-gray-400">
+                        </div>
+                        <div>
+                            <input type="password" id="signup-password" placeholder="Enter Password" required
+                                class="input-field w-full px-4 py-3 rounded-lg text-gray-700 placeholder-gray-400">
+                        </div>
+                        <button type="submit" class="btn-primary w-full py-3 px-4 rounded-lg text-white font-semibold text-lg mt-2">
+                            Sign Up
+                        </button>
+                    </form>
+
+                    <div class="mt-8 text-center text-sm text-gray-600">
+                        Already have an account? 
+                        <button onclick="navigateTo('login')" class="text-blue-600 font-semibold hover:underline">Sign in</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Screen -->
+        <div id="login-page" class="page">
+            <div class="auth-container">
+                <div class="auth-box">
+                    <h1 class="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-12">
+                        GOUNI Staff Management System
+                    </h1>
+
+                    <form id="login-form" class="space-y-4">
+                        <div>
+                            <input type="text" id="login-staffId" placeholder="Enter GO ID" required
+                                class="input-field w-full px-4 py-3 rounded-lg text-gray-700 placeholder-gray-400">
+                        </div>
+                        <div>
+                            <input type="password" id="login-password" placeholder="Enter Password" required
+                                class="input-field w-full px-4 py-3 rounded-lg text-gray-700 placeholder-gray-400">
+                        </div>
+                        <button type="submit" class="btn-primary w-full py-3 px-4 rounded-lg text-white font-semibold text-lg mt-2">
+                            Login
+                        </button>
+                    </form>
+
+                    <div class="mt-8 text-center text-sm text-gray-600">
+                        Don't have an account? 
+                        <button onclick="navigateTo('signup')" class="text-blue-600 font-semibold hover:underline">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Screen -->
+        <div id="dashboard-page" class="page">
+            <div class="flex h-screen overflow-hidden bg-white">
+                
+                <!-- Sidebar -->
+                <aside class="w-64 sidebar-bg flex-shrink-0 flex flex-col justify-between border-r border-gray-200">
+                    <div>
+                        <!-- Sidebar Header -->
+                        <div class="p-6">
+                            <h2 class="text-lg font-bold text-gray-800 leading-tight">GO Staff Management System</h2>
+                        </div>
+                        
+                        <!-- Navigation -->
+                        <nav class="px-4 space-y-2 mt-4">
+                            <a href="#" class="nav-item active flex items-center px-4 py-3 text-sm">
+                                <i class="fa-solid fa-table-columns w-5 text-lg mr-3"></i>
+                                Dashboard
+                            </a>
+                            <a href="#" class="nav-item flex items-center px-4 py-3 text-sm">
+                                <i class="fa-solid fa-users w-5 text-lg mr-3"></i>
+                                Workers
+                            </a>
+                            <a href="#" class="nav-item flex items-center px-4 py-3 text-sm">
+                                <i class="fa-regular fa-calendar-check w-5 text-lg mr-3"></i>
+                                Schedule
+                            </a>
+                            <a href="#" class="nav-item flex items-center px-4 py-3 text-sm">
+                                <i class="fa-solid fa-arrow-trend-up w-5 text-lg mr-3"></i>
+                                Promotions
+                            </a>
+                            <a href="#" class="nav-item flex items-center px-4 py-3 text-sm">
+                                <i class="fa-solid fa-chart-pie w-5 text-lg mr-3"></i>
+                                Insights
+                            </a>
+                            <a href="#" class="nav-item flex items-center px-4 py-3 text-sm">
+                                <i class="fa-solid fa-gear w-5 text-lg mr-3"></i>
+                                Settings
+                            </a>
+                        </nav>
+                    </div>
+
+                    <!-- Logout -->
+                    <div class="p-4 border-t border-gray-300">
+                        <button onclick="logout()" class="flex items-center text-red-600 hover:text-red-700 px-4 py-2 w-full transition-colors font-medium">
+                            <i class="fa-solid fa-right-from-bracket mr-3 text-lg"></i>
+                            Log out
+                        </button>
+                    </div>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="flex-1 flex flex-col h-full overflow-hidden">
+                    
+                    <!-- Top Header -->
+                    <header class="h-20 bg-white border-b border-gray-100 flex items-center justify-between px-8 flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-gray-800">Welcome back, Kachi!</h1>
+                        
+                        <div class="flex items-center space-x-6">
+                            <button class="text-gray-500 hover:text-gray-700 relative">
+                                <i class="fa-regular fa-bell text-xl"></i>
+                                <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
+                            </button>
+                            
+                            <div class="flex items-center border border-gray-200 rounded-full px-2 py-1 cursor-pointer hover:bg-gray-50 transition">
+                                <img src="https://i.pravatar.cc/150?u=kachi" alt="Kachi" class="h-8 w-8 rounded-full object-cover">
+                                <span class="ml-3 text-sm font-medium text-gray-700 mr-2">Kachi</span>
+                            </div>
+                        </div>
+                    </header>
+
+                    <!-- Scrollable Content Area -->
+                    <div class="flex-1 overflow-y-auto p-8 bg-white">
+                        
+                        <!-- Stats Cards -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                            <!-- Card 1 -->
+                            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition">
+                                <h3 class="text-lg font-medium text-gray-800 mb-2">Total Teaching Staff</h3>
+                                <p class="text-4xl font-bold text-gray-900">350</p>
+                            </div>
+                            <!-- Card 2 -->
+                            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition">
+                                <h3 class="text-lg font-medium text-gray-800 mb-2">Total Non-Teaching Staff</h3>
+                                <p class="text-4xl font-bold text-gray-900">70</p>
+                            </div>
+                            <!-- Card 3 -->
+                            <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition flex items-center justify-center cursor-pointer group">
+                                <span class="text-lg font-medium text-gray-800 group-hover:text-blue-600 transition">Push community message</span>
+                            </div>
+                        </div>
+
+                        <!-- Table Section -->
+                        <div class="bg-white rounded-lg border border-gray-100">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-gray-50 border-b border-gray-100 text-xs uppercase text-gray-500 font-medium">
+                                        <th class="px-6 py-4 w-10"><input type="checkbox" class="checkbox-custom rounded"></th>
+                                        <th class="px-6 py-4">Name</th>
+                                        <th class="px-6 py-4">Status</th>
+                                        <th class="px-6 py-4">Role</th>
+                                        <th class="px-6 py-4">Email</th>
+                                        <th class="px-6 py-4">Teams</th>
+                                        <th class="px-6 py-4"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-sm text-gray-600" id="staff-table-body">
+                                    <!-- Rows generated by JS below to duplicate mock data -->
+                                </tbody>
+                            </table>
+                            
+                            <!-- Pagination -->
+                            <div class="flex items-center justify-end space-x-2 px-6 py-4 border-t border-gray-100">
+                                <button class="px-3 py-1 text-gray-500 hover:bg-gray-100 rounded text-sm"><i class="fa-solid fa-chevron-left mr-1"></i> Prev</button>
+                                <button class="w-8 h-8 flex items-center justify-center bg-blue-50 text-blue-600 font-medium rounded text-sm">1</button>
+                                <button class="w-8 h-8 flex items-center justify-center text-gray-500 hover:bg-gray-100 rounded text-sm">2</button>
+                                <button class="w-8 h-8 flex items-center justify-center text-gray-500 hover:bg-gray-100 rounded text-sm">3</button>
+                                <span class="text-gray-400 px-2">...</span>
+                                <button class="w-8 h-8 flex items-center justify-center text-gray-500 hover:bg-gray-100 rounded text-sm">8</button>
+                                <button class="w-8 h-8 flex items-center justify-center text-gray-500 hover:bg-gray-100 rounded text-sm">9</button>
+                                <button class="w-8 h-8 flex items-center justify-center text-gray-500 hover:bg-gray-100 rounded text-sm">10</button>
+                                <button class="px-3 py-1 text-gray-500 hover:bg-gray-100 rounded text-sm">Next <i class="fa-solid fa-chevron-right ml-1"></i></button>
+                            </div>
+                        </div>
+
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <!-- Custom Notification Box -->
+        <div id="toast" class="hidden fixed bottom-5 right-5 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg z-50">
+            <span id="toast-message"></span>
+        </div>
+    </div>
+
+    <script>
+        // --- AUTH LOGIC ---
+        const signupForm = document.getElementById('signup-form');
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('signup-email').value;
+            const staffId = document.getElementById('signup-staffId').value;
+            showToast("Account created! Redirecting to login...");
+            setTimeout(() => navigateTo('login'), 1500);
+        });
+
+        const loginForm = document.getElementById('login-form');
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const staffId = document.getElementById('login-staffId').value;
+            showToast("Login Successful! Welcome Kachi.");
+            // Simulate loading then go to dashboard
+            setTimeout(() => navigateTo('dashboard'), 1000);
+        });
+
+        function logout() {
+            showToast("Logging out...");
+            setTimeout(() => navigateTo('login'), 1000);
+        }
+
+        // --- NAVIGATION LOGIC ---
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            const targetPage = document.getElementById(`${pageId}-page`);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+        }
+
+        // --- UI HELPERS ---
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.innerText = message;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // --- DASHBOARD DATA POPULATION ---
+        const staffData = [
+            { name: "Kachi", username: "@kachi_ux", role: "Product manager", email: "kachi@gouni.edu.ng", teams: ["Design", "Product", "Development", "+5"], img: "https://i.pravatar.cc/150?u=kachi" },
+            { name: "Chinedu", username: "@edu_dev", role: "Product manager", email: "chinedu@gouni.edu.ng", teams: ["Design", "Product", "Development", "+5"], img: "https://i.pravatar.cc/150?u=chinedu" },
+            { name: "Amara", username: "@amara_codes", role: "Product manager", email: "amara@gouni.edu.ng", teams: ["Design", "Product", "Development", "+5"], img: "https://i.pravatar.cc/150?u=amara" },
+            { name: "Tobi", username: "@tobi_wan", role: "Product manager", email: "tobi@gouni.edu.ng", teams: ["Design", "Product", "Development", "+5"], img: "https://i.pravatar.cc/150?u=tobi" },
+            { name: "Zainab", username: "@zee_designs", role: "Product manager", email: "zainab@gouni.edu.ng", teams: ["Design", "Product", "Development", "+5"], img: "https://i.pravatar.cc/150?u=zainab" },
+            { name: "Femi", username: "@femi_sql", role: "Product manager", email: "femi@gouni.edu.ng", teams: ["Design", "Product", "Development", "+5"], img: "https://i.pravatar.cc/150?u=femi" },
+            { name: "Ngozi", username: "@ngozi_hr", role: "Product manager", email: "ngozi@gouni.edu.ng", teams: ["Design", "Product", "Development", "+5"], img: "https://i.pravatar.cc/150?u=ngozi" },
+        ];
+
+        const tableBody = document.getElementById('staff-table-body');
+        
+        staffData.forEach(staff => {
+            const row = document.createElement('tr');
+            row.className = "border-b border-gray-50 hover:bg-gray-50 transition";
+            
+            // Create Teams HTML
+            const teamsHtml = staff.teams.map((team, index) => {
+                return `<span class="team-pill">${team}</span>`
+            }).join('');
+
+            row.innerHTML = `
+                <td class="px-6 py-4"><input type="checkbox" class="checkbox-custom rounded"></td>
+                <td class="px-6 py-4 flex items-center">
+                    <img src="${staff.img}" alt="${staff.name}" class="w-8 h-8 rounded-full mr-3">
+                    <div>
+                        <div class="font-medium text-gray-900">${staff.name}</div>
+                        <div class="text-xs text-gray-400">${staff.username}</div>
+                    </div>
+                </td>
+                <td class="px-6 py-4">
+                    <span class="bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded font-medium border border-blue-100">Working</span>
+                </td>
+                <td class="px-6 py-4 text-gray-600">${staff.role}</td>
+                <td class="px-6 py-4 text-gray-500">${staff.email}</td>
+                <td class="px-6 py-4">
+                    <div class="flex flex-wrap gap-1">
+                        ${teamsHtml}
+                    </div>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="flex space-x-2">
+                         <button class="text-gray-400 hover:text-gray-600"><i class="fa-regular fa-pen-to-square"></i></button>
+                         <button class="text-gray-400 hover:text-red-500"><i class="fa-regular fa-trash-can"></i></button>
+                    </div>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+    </script>
+</body>
+</html>
