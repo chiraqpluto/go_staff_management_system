@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Tracking - GOUNI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+    <!-- Navigation/Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 px-4 md:px-8 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <a href="admin-dashboard.html" class="flex items-center gap-2 text-slate-500 hover:text-blue-600 transition text-sm font-bold">
+                <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+            </a>
+            <div class="h-4 w-[1px] bg-slate-300 mx-2"></div>
+            <span class="text-sm font-semibold text-slate-700">Attendance Management</span>
+        </div>
+        <div class="font-black text-slate-800 tracking-tight text-xl">GOUNI<span class="text-blue-600">Admin</span></div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 md:p-8">
+        
+        <!-- Page Header & Controls -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900">Attendance & Time Tracking</h1>
+                <p class="text-slate-500 text-sm mt-1">Monitor staff presence, shifts, and daily logs.</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <i class="fa-regular fa-calendar absolute left-3 top-2.5 text-slate-400 text-sm"></i>
+                    <select class="pl-9 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-blue-100 cursor-pointer shadow-sm">
+                        <option>October 2025</option>
+                        <option>September 2025</option>
+                        <option>August 2025</option>
+                    </select>
+                </div>
+                <button onclick="exportReport()" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-semibold shadow-lg shadow-blue-200 transition flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-download"></i> Export Report
+                </button>
+            </div>
+        </div>
+
+        <!-- Quick Stats Overview -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                <div class="flex justify-between items-start mb-2">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Avg. Attendance</div>
+                    <span class="text-green-500 bg-green-50 px-2 py-0.5 rounded text-[10px] font-bold">+2.4%</span>
+                </div>
+                <div class="text-2xl font-bold text-slate-800">96.5%</div>
+                <div class="w-full bg-slate-100 h-1.5 rounded-full mt-3 overflow-hidden">
+                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 96.5%"></div>
+                </div>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                <div class="flex justify-between items-start mb-2">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">On Time</div>
+                    <i class="fa-regular fa-clock text-blue-500"></i>
+                </div>
+                <div class="text-2xl font-bold text-slate-800">384</div>
+                <p class="text-xs text-slate-400 mt-1">Staff clocked in before 8:00 AM</p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                <div class="flex justify-between items-start mb-2">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Late Arrivals</div>
+                    <i class="fa-solid fa-person-running text-amber-500"></i>
+                </div>
+                <div class="text-2xl font-bold text-slate-800">12</div>
+                <p class="text-xs text-slate-400 mt-1">Avg delay: 15 mins</p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                <div class="flex justify-between items-start mb-2">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Absent</div>
+                    <i class="fa-solid fa-user-slash text-red-500"></i>
+                </div>
+                <div class="text-2xl font-bold text-slate-800">8</div>
+                <p class="text-xs text-slate-400 mt-1">3 on planned leave</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+            
+            <!-- Left Column: Calendar View -->
+            <div class="xl:col-span-1 bg-white rounded-2xl border border-slate-100 shadow-sm p-6 h-fit">
+                <h3 class="font-bold text-slate-800 mb-6 flex items-center gap-2">
+                    <i class="fa-regular fa-calendar-check text-slate-400"></i> Monthly View
+                </h3>
+                
+                <!-- Weekday Headers -->
+                <div class="grid grid-cols-7 gap-2 mb-4 text-center">
+                    <div class="text-xs font-bold text-slate-400">Sun</div>
+                    <div class="text-xs font-bold text-slate-400">Mon</div>
+                    <div class="text-xs font-bold text-slate-400">Tue</div>
+                    <div class="text-xs font-bold text-slate-400">Wed</div>
+                    <div class="text-xs font-bold text-slate-400">Thu</div>
+                    <div class="text-xs font-bold text-slate-400">Fri</div>
+                    <div class="text-xs font-bold text-slate-400">Sat</div>
+                </div>
+
+                <!-- Days Grid -->
+                <div class="calendar-grid text-sm font-medium">
+                    <!-- Empty slots for previous month -->
+                    <div class="p-2"></div><div class="p-2"></div><div class="p-2"></div>
+                    
+                    <!-- Days -->
+                    <div class="aspect-square flex flex-col items-center justify-center rounded-lg hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-100 transition relative group">
+                        <span class="text-slate-400">1</span>
+                    </div>
+                    <div class="aspect-square flex flex-col items-center justify-center rounded-lg bg-green-50 text-green-700 border border-green-100 cursor-pointer relative group">
+                        <span>2</span>
+                        <div class="w-1.5 h-1.5 rounded-full bg-green-500 mt-1"></div>
+                    </div>
+                    <div class="aspect-square flex flex-col items-center justify-center rounded-lg bg-green-50 text-green-700 border border-green-100 cursor-pointer relative group">
+                        <span>3</span>
+                        <div class="w-1.5 h-1.5 rounded-full bg-green-500 mt-1"></div>
+                    </div>
+                    <div class="aspect-square flex flex-col items-center justify-center rounded-lg hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-100 transition relative group">
+                        <span class="text-slate-400">4</span>
+                    </div>
+                    
+                    <!-- Week 2 -->
+                    <div class="aspect-square flex flex-col items-center justify-center rounded-lg hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-100 transition relative group">
+                        <span class="text-slate-400">5</span>
+                    </div>
+                    <div class="aspect-square flex flex-col items-center justify-center rounded-lg bg-green-50 text-green-700 border border-green-100 cursor-pointer relative group">
+                        <span>6</span>
+                        <div class="w-1.5 h-1.5 rounded-full bg-green-500 mt-1"></div>
+                    </div>
+                    <div class="aspect-square flex flex-col items-center justify-center rounded-lg bg-amber-50 text-amber-700 border border-amber-100 cursor-pointer relative group">
+                        <span>7</span>
+                        <div class="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1"></div>
+                    </div>
+                    <div class="aspect-square flex flex-col items-center justify-center rounded-lg bg-green-50 text-green-700 border border-green-100 cursor-pointer relative group">
+                        <span>8</span>
+                        <div class="w-1.5 h-1.5 rounded-full bg-green-500 mt-1"></div>
+                    </div>
+                    <div class="aspect-square flex flex-col items-center justify-center rounded-lg bg-green-50 text-green-700 border border-green-100 cursor-pointer relative group">
+                        <span>9</span>
+                        <div class="w-1.5 h-1.5 rounded-full bg-green-500 mt-1"></div>
+                    </div>
+                    <div class="aspect-square flex flex-col items-center justify-center rounded-lg bg-red-50 text-red-700 border border-red-100 cursor-pointer relative group ring-2 ring-blue-500 ring-offset-2">
+                        <span>10</span>
+                        <div class="w-1.5 h-1.5 rounded-full bg-red-500 mt-1"></div>
+                        <!-- Tooltip -->
+                        <div class="absolute bottom-full mb-2 hidden group-hover:block bg-slate-800 text-white text-xs p-2 rounded whitespace-nowrap z-10">Absent</div>
+                    </div>
+                    <div class="aspect-square flex flex-col items-center justify-center rounded-lg hover:bg-slate-50 cursor-pointer border border-transparent hover:border-slate-100 transition relative group">
+                        <span class="text-slate-400">11</span>
+                    </div>
+
+                    <!-- Just filler for visualization -->
+                    <div class="col-span-7 text-center pt-4 border-t border-slate-50 mt-2">
+                        <div class="flex justify-center gap-4 text-xs text-slate-500">
+                            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-500"></span> Present</span>
+                            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Late</span>
+                            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-red-500"></span> Absent</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Detailed Logs -->
+            <div class="xl:col-span-2 space-y-6">
+                
+                <!-- Daily Log Table -->
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                    <div class="p-6 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <h3 class="font-bold text-slate-800">Daily Logs - Oct 10, 2025</h3>
+                        <div class="flex gap-2 w-full sm:w-auto">
+                            <input type="text" placeholder="Search staff..." class="flex-1 sm:flex-none px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-blue-500">
+                            <button class="px-4 py-2 border border-slate-200 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50"><i class="fa-solid fa-filter"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-slate-50 text-slate-500 font-bold uppercase text-xs">
+                                <tr>
+                                    <th class="px-6 py-4">Staff Member</th>
+                                    <th class="px-6 py-4">Check In</th>
+                                    <th class="px-6 py-4">Check Out</th>
+                                    <th class="px-6 py-4">Status</th>
+                                    <th class="px-6 py-4">Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">DK</div>
+                                            <div>
+                                                <div class="font-bold text-slate-800">Dr. Kachi</div>
+                                                <div class="text-xs text-slate-400">Computer Science</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 font-mono text-slate-600">07:45 AM</td>
+                                    <td class="px-6 py-4 font-mono text-slate-600">04:15 PM</td>
+                                    <td class="px-6 py-4"><span class="bg-green-50 text-green-700 px-2 py-1 rounded border border-green-100 text-xs font-bold">On Time</span></td>
+                                    <td class="px-6 py-4 text-slate-600">8h 30m</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <img src="https://i.pravatar.cc/150?u=3" class="w-8 h-8 rounded-full">
+                                            <div>
+                                                <div class="font-bold text-slate-800">Prof. Okeke</div>
+                                                <div class="text-xs text-slate-400">Political Science</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 font-mono text-slate-600">08:30 AM</td>
+                                    <td class="px-6 py-4 font-mono text-slate-600">05:00 PM</td>
+                                    <td class="px-6 py-4"><span class="bg-amber-50 text-amber-700 px-2 py-1 rounded border border-amber-100 text-xs font-bold">Late (30m)</span></td>
+                                    <td class="px-6 py-4 text-slate-600">8h 30m</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold text-xs">CN</div>
+                                            <div>
+                                                <div class="font-bold text-slate-800">Chinedu N.</div>
+                                                <div class="text-xs text-slate-400">Admin Dept</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 font-mono text-slate-400">--:--</td>
+                                    <td class="px-6 py-4 font-mono text-slate-400">--:--</td>
+                                    <td class="px-6 py-4"><span class="bg-red-50 text-red-700 px-2 py-1 rounded border border-red-100 text-xs font-bold">Absent</span></td>
+                                    <td class="px-6 py-4 text-slate-400">-</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <img src="https://i.pravatar.cc/150?u=5" class="w-8 h-8 rounded-full">
+                                            <div>
+                                                <div class="font-bold text-slate-800">Mrs. Grace</div>
+                                                <div class="text-xs text-slate-400">Bursary</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 font-mono text-slate-600">07:55 AM</td>
+                                    <td class="px-6 py-4 font-mono text-slate-600"><span class="text-blue-600 font-bold animate-pulse">Active</span></td>
+                                    <td class="px-6 py-4"><span class="bg-green-50 text-green-700 px-2 py-1 rounded border border-green-100 text-xs font-bold">On Time</span></td>
+                                    <td class="px-6 py-4 text-slate-600">In Progress</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-center">
+                        <button class="text-sm font-bold text-blue-600 hover:text-blue-800 transition">View All Logs</button>
+                    </div>
+                </div>
+
+                <!-- Missing Clock-outs Alert -->
+                <div class="bg-amber-50 border border-amber-100 rounded-xl p-4 flex items-start gap-3">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-500 mt-1"></i>
+                    <div>
+                        <h4 class="font-bold text-amber-800 text-sm">Action Required</h4>
+                        <p class="text-sm text-amber-700 mt-1">3 staff members did not clock out yesterday. Please review their logs to ensure payroll accuracy.</p>
+                        <button class="text-xs font-bold text-amber-900 underline mt-2 hover:no-underline">Review Logs</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function exportReport() {
+            // Simple visual feedback for the export action
+            const btn = document.querySelector('button[onclick="exportReport()"]');
+            const originalContent = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Exporting...';
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+            
+            setTimeout(() => {
+                alert('Attendance Report (CSV) has been downloaded successfully.');
+                btn.innerHTML = originalContent;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
