@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Profile - GOUNI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>body { font-family: 'Plus Jakarta Sans', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+    <!-- Navigation/Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 px-4 md:px-8 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <a href="admin-dashboard.html" class="flex items-center gap-2 text-slate-500 hover:text-blue-600 transition text-sm font-bold">
+                <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+        <div class="font-black text-slate-800 tracking-tight text-xl">GOUNI<span class="text-blue-600">Admin</span></div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 md:p-8">
+        <!-- Header Card -->
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 mb-6 flex flex-col md:flex-row gap-6 items-start md:items-center">
+            <div class="relative">
+                <div class="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-2xl font-bold border-4 border-white shadow-sm">DK</div>
+                <div class="absolute bottom-1 right-1 w-6 h-6 bg-green-500 border-4 border-white rounded-full"></div>
+            </div>
+            <div class="flex-1">
+                <h1 class="text-2xl font-bold text-slate-900">Dr. Kachi</h1>
+                <p class="text-slate-500 font-medium">Senior Lecturer • Computer Science Department</p>
+                <div class="flex flex-wrap gap-2 mt-3">
+                    <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-bold border border-blue-100">PhD in AI</span>
+                    <span class="bg-purple-50 text-purple-700 px-3 py-1 rounded-full text-xs font-bold border border-purple-100">Full Time</span>
+                    <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-bold border border-slate-200">Joined 2019</span>
+                </div>
+            </div>
+            <div class="flex gap-3 w-full md:w-auto">
+                <button class="flex-1 md:flex-none px-4 py-2 border border-slate-200 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50 transition">
+                    <i class="fa-solid fa-envelope mr-2"></i> Message
+                </button>
+                <button class="flex-1 md:flex-none px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-200">
+                    <i class="fa-solid fa-pen mr-2"></i> Edit Profile
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Left Column: Personal Info -->
+            <div class="space-y-6">
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+                    <h3 class="font-bold text-slate-800 mb-4">Contact Information</h3>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 shrink-0"><i class="fa-solid fa-envelope"></i></div>
+                            <div>
+                                <p class="text-xs text-slate-400 font-bold uppercase">Email Address</p>
+                                <p class="text-slate-700 font-medium break-all">kachi@gouni.edu.ng</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 shrink-0"><i class="fa-solid fa-phone"></i></div>
+                            <div>
+                                <p class="text-xs text-slate-400 font-bold uppercase">Phone</p>
+                                <p class="text-slate-700 font-medium">+234 800 123 4567</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 shrink-0"><i class="fa-solid fa-location-dot"></i></div>
+                            <div>
+                                <p class="text-xs text-slate-400 font-bold uppercase">Office</p>
+                                <p class="text-slate-700 font-medium">Science Block B, Room 304</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+                    <h3 class="font-bold text-slate-800 mb-4">Documents</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center justify-between p-3 rounded-xl border border-slate-100 hover:border-blue-200 hover:bg-blue-50 transition cursor-pointer group">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-file-pdf text-red-500 text-xl"></i>
+                                <div>
+                                    <p class="text-sm font-bold text-slate-700 group-hover:text-blue-700">Curriculum Vitae</p>
+                                    <p class="text-xs text-slate-400">PDF • 2.4 MB</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-download text-slate-300 group-hover:text-blue-500"></i>
+                        </li>
+                        <li class="flex items-center justify-between p-3 rounded-xl border border-slate-100 hover:border-blue-200 hover:bg-blue-50 transition cursor-pointer group">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-file-contract text-blue-500 text-xl"></i>
+                                <div>
+                                    <p class="text-sm font-bold text-slate-700 group-hover:text-blue-700">Contract.pdf</p>
+                                    <p class="text-xs text-slate-400">PDF • 1.1 MB</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-download text-slate-300 group-hover:text-blue-500"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right Column: Activity & Courses -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Stats Row -->
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="bg-white p-4 rounded-2xl border border-slate-100 text-center">
+                        <div class="text-2xl font-bold text-slate-800">12</div>
+                        <div class="text-xs text-slate-400 font-bold uppercase">Publications</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl border border-slate-100 text-center">
+                        <div class="text-2xl font-bold text-slate-800">4</div>
+                        <div class="text-xs text-slate-400 font-bold uppercase">Current Classes</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl border border-slate-100 text-center">
+                        <div class="text-2xl font-bold text-slate-800">98%</div>
+                        <div class="text-xs text-slate-400 font-bold uppercase">Attendance</div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+                    <h3 class="font-bold text-slate-800 mb-4">Current Semester Courses</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="bg-slate-50 text-slate-500 font-bold uppercase text-xs">
+                                <tr>
+                                    <th class="px-4 py-2">Code</th>
+                                    <th class="px-4 py-2">Course Title</th>
+                                    <th class="px-4 py-2">Students</th>
+                                    <th class="px-4 py-2">Schedule</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <tr>
+                                    <td class="px-4 py-3 font-bold text-slate-700">CSC 401</td>
+                                    <td class="px-4 py-3">Artificial Intelligence</td>
+                                    <td class="px-4 py-3">45</td>
+                                    <td class="px-4 py-3 text-slate-500">Mon, Wed (10:00 AM)</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-3 font-bold text-slate-700">CSC 202</td>
+                                    <td class="px-4 py-3">Data Structures</td>
+                                    <td class="px-4 py-3">120</td>
+                                    <td class="px-4 py-3 text-slate-500">Tue, Thu (2:00 PM)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+                    <h3 class="font-bold text-slate-800 mb-4">Recent Activity</h3>
+                    <div class="space-y-6 border-l-2 border-slate-100 ml-3 pl-6 relative">
+                        <div class="relative">
+                            <div class="absolute -left-[31px] top-0 w-4 h-4 bg-blue-600 rounded-full border-4 border-white"></div>
+                            <p class="text-sm font-bold text-slate-800">Submitted Leave Request</p>
+                            <p class="text-xs text-slate-400 mb-1">2 hours ago</p>
+                            <p class="text-sm text-slate-600">Requested annual leave for 14 days starting August 12.</p>
+                        </div>
+                        <div class="relative">
+                            <div class="absolute -left-[31px] top-0 w-4 h-4 bg-slate-200 rounded-full border-4 border-white"></div>
+                            <p class="text-sm font-bold text-slate-800">Uploaded Grades for CSC 401</p>
+                            <p class="text-xs text-slate-400 mb-1">Yesterday</p>
+                            <p class="text-sm text-slate-600">Final semester results processed and uploaded.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

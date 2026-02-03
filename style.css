@@ -1,0 +1,76 @@
+/* Global Variables */
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #f8fafc;
+    overflow-x: hidden;
+}
+
+/* Auth Backgrounds */
+.auth-bg {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #1d4ed8 100%);
+    min-height: 100vh;
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.pattern-grid {
+    background-image: radial-gradient(#ffffff 1px, transparent 1px);
+    background-size: 30px 30px;
+    opacity: 0.1;
+}
+
+/* Sidebar & Navigation */
+.sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0; width: 260px;
+    background: white; border-right: 1px solid #e2e8f0; z-index: 50;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(-100%); /* Hidden on mobile */
+}
+
+@media (min-width: 1024px) {
+    .sidebar { transform: translateX(0); }
+    .main-content { margin-left: 260px; }
+}
+
+.sidebar.open {
+    transform: translateX(0);
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+}
+
+.sidebar-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 40;
+}
+.sidebar-overlay.active { display: block; }
+
+/* Modals */
+.modal-overlay {
+    display: none;
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5); z-index: 60;
+    align-items: center; justify-content: center;
+    backdrop-filter: blur(4px);
+}
+.modal-overlay.active { display: flex; animation: fadeIn 0.2s ease-out; }
+
+/* Calendar */
+.calendar-day {
+    aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+    border-radius: 50%; font-size: 0.875rem; color: #64748b; cursor: pointer; transition: all 0.2s;
+}
+.calendar-day:hover { background-color: #f1f5f9; color: #0f172a; }
+.calendar-day.active { background-color: var(--primary); color: white; font-weight: 600; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

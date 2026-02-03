@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - GOUNI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .sidebar {
+            width: 260px;
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            z-index: 40;
+            transition: transform 0.3s ease;
+        }
+        .main-content {
+            margin-left: 260px;
+            background: #f8fafc;
+        }
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 30;
+            display: none;
+        }
+        .sidebar-overlay.active { display: block; }
+        
+        @media (max-width: 1024px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+        }
+
+        /* Tab Transitions */
+        .admin-tab {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        .admin-tab.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside id="admin-sidebar" class="sidebar flex flex-col">
+        <div class="h-16 flex items-center px-6 border-b border-slate-100 bg-white">
+            <i class="fa-solid fa-graduation-cap text-blue-600 text-xl mr-2"></i>
+            <span class="font-black text-slate-800 tracking-tight text-xl">GOUNI<span class="text-blue-600">Admin</span></span>
+        </div>
+        
+        <div class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+            <div class="text-xs font-bold text-slate-400 uppercase px-4 mb-2 tracking-wider">Main Menu</div>
+            <button onclick="switchAdminTab('overview', this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold bg-blue-50 text-blue-700 transition">
+                <i class="fa-solid fa-table-columns w-5 text-center"></i> Overview
+            </button>
+            <button onclick="switchAdminTab('workers', this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition">
+                <i class="fa-solid fa-users w-5 text-center"></i> Staff List
+            </button>
+            <button onclick="switchAdminTab('departments', this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition">
+                <i class="fa-solid fa-building-columns w-5 text-center"></i> Departments
+            </button>
+            <div class="flex items-center justify-between px-4 mt-4 mb-2">
+                <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Management</div>
+                <span class="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">2</span>
+            </div>
+            <button onclick="switchAdminTab('requests', this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition">
+                <i class="fa-solid fa-envelope-open-text w-5 text-center"></i> Leave Requests
+            </button>
+            <button onclick="switchAdminTab('settings', this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition">
+                <i class="fa-solid fa-gear w-5 text-center"></i> Settings
+            </button>
+        </div>
+
+        <div class="p-4 border-t border-slate-100">
+            <div class="bg-slate-50 rounded-xl p-4 mb-3 border border-slate-100">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                    <span class="text-xs font-medium text-slate-500">System Online</span>
+                </div>
+                <div class="text-xs text-slate-400">v2.4.0</div>
+            </div>
+            <button onclick="alert('Logging out...')" class="flex items-center gap-3 text-red-500 hover:bg-red-50 w-full px-4 py-3 rounded-lg transition font-bold text-sm">
+                <i class="fa-solid fa-right-from-bracket"></i> Log Out
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content min-h-screen flex flex-col transition-all">
+        <!-- Header -->
+        <header class="h-16 bg-white border-b border-slate-200 sticky top-0 z-30 px-4 md:px-8 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <button onclick="toggleSidebar()" class="lg:hidden text-slate-500 hover:text-slate-800 p-2">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <div class="hidden md:flex items-center bg-slate-50 rounded-lg px-3 py-2 border border-slate-200 w-64 focus-within:ring-2 focus-within:ring-blue-100 transition">
+                    <i class="fa-solid fa-search text-slate-400 text-sm"></i>
+                    <input type="text" placeholder="Search staff, files..." class="bg-transparent border-none outline-none text-sm ml-2 w-full text-slate-600 placeholder:text-slate-400">
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="relative p-2 text-slate-400 hover:text-blue-600 transition">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+                </button>
+                <div class="h-8 w-[1px] bg-slate-200"></div>
+                <div class="flex items-center gap-3">
+                    <div class="text-right hidden sm:block">
+                        <div class="text-sm font-bold text-slate-700">Admin User</div>
+                        <div class="text-xs text-slate-400">Super Admin</div>
+                    </div>
+                    <img src="https://i.pravatar.cc/150?u=admin" class="w-9 h-9 rounded-full border border-slate-200 cursor-pointer hover:ring-2 hover:ring-blue-100 transition">
+                </div>
+            </div>
+        </header>
+
+        <!-- TAB 1: OVERVIEW -->
+        <div id="tab-overview" class="admin-tab active p-4 md:p-8">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">Dashboard Overview</h2>
+            
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-2 bg-blue-50 rounded-lg text-blue-600"><i class="fa-solid fa-users text-lg"></i></div>
+                        <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">+12%</span>
+                    </div>
+                    <div class="text-3xl font-bold text-slate-900 mb-1">420</div>
+                    <div class="text-sm text-slate-500 font-medium">Total Staff</div>
+                </div>
+                
+                <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-2 bg-purple-50 rounded-lg text-purple-600"><i class="fa-solid fa-user-graduate text-lg"></i></div>
+                        <span class="text-xs font-bold text-slate-500 bg-slate-50 px-2 py-1 rounded-full">Active</span>
+                    </div>
+                    <div class="text-3xl font-bold text-slate-900 mb-1">15</div>
+                    <div class="text-sm text-slate-500 font-medium">Departments</div>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-2 bg-amber-50 rounded-lg text-amber-600"><i class="fa-solid fa-clock text-lg"></i></div>
+                        <span class="text-xs font-bold text-red-500 bg-red-50 px-2 py-1 rounded-full">Action Req</span>
+                    </div>
+                    <div class="text-3xl font-bold text-slate-900 mb-1">12</div>
+                    <div class="text-sm text-slate-500 font-medium">Pending Requests</div>
+                </div>
+
+                <div class="bg-blue-600 p-5 rounded-2xl border border-blue-500 shadow-sm text-white relative overflow-hidden group">
+                    <div class="absolute right-0 top-0 w-32 h-32 bg-white opacity-5 rounded-full transform translate-x-10 -translate-y-10 group-hover:scale-110 transition"></div>
+                    <div class="relative z-10">
+                        <div class="text-blue-100 text-sm font-medium mb-1">System Status</div>
+                        <div class="text-2xl font-bold mb-4">All Systems Go</div>
+                        <button class="w-full bg-white/20 hover:bg-white/30 backdrop-blur-sm text-sm font-semibold py-2 rounded-lg transition">View Report</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Recent Activity -->
+                <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+                    <h3 class="font-bold text-slate-800 text-lg mb-4">Recent Activity</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4 pb-4 border-b border-slate-50">
+                            <img src="https://i.pravatar.cc/150?u=1" class="w-10 h-10 rounded-full border border-slate-100">
+                            <div>
+                                <p class="text-sm text-slate-800"><span class="font-bold">Dr. Kachi</span> submitted a leave request.</p>
+                                <p class="text-xs text-slate-400 mt-1">2 hours ago</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 pb-4 border-b border-slate-50">
+                            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                                <i class="fa-solid fa-user-plus"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-slate-800"><span class="font-bold">System</span> added new staff: Chinedu O.</p>
+                                <p class="text-xs text-slate-400 mt-1">5 hours ago</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <img src="https://i.pravatar.cc/150?u=3" class="w-10 h-10 rounded-full border border-slate-100">
+                            <div>
+                                <p class="text-sm text-slate-800"><span class="font-bold">Prof. Okeke</span> updated profile details.</p>
+                                <p class="text-xs text-slate-400 mt-1">1 day ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+                    <h3 class="font-bold text-slate-800 text-lg mb-4">Quick Actions</h3>
+                    <div class="space-y-3">
+                        <button onclick="switchAdminTab('workers')" class="w-full flex items-center gap-3 p-3 rounded-xl border border-slate-100 hover:border-blue-500 hover:bg-blue-50 transition text-left group">
+                            <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition">
+                                <i class="fa-solid fa-user-plus text-xs"></i>
+                            </div>
+                            <span class="text-sm font-semibold text-slate-600 group-hover:text-blue-700">Add New Staff</span>
+                        </button>
+                        <button class="w-full flex items-center gap-3 p-3 rounded-xl border border-slate-100 hover:border-purple-500 hover:bg-purple-50 transition text-left group">
+                            <div class="w-8 h-8 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center group-hover:bg-purple-600 group-hover:text-white transition">
+                                <i class="fa-solid fa-file-export text-xs"></i>
+                            </div>
+                            <span class="text-sm font-semibold text-slate-600 group-hover:text-purple-700">Export Reports</span>
+                        </button>
+                        <button class="w-full flex items-center gap-3 p-3 rounded-xl border border-slate-100 hover:border-orange-500 hover:bg-orange-50 transition text-left group">
+                            <div class="w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition">
+                                <i class="fa-solid fa-bullhorn text-xs"></i>
+                            </div>
+                            <span class="text-sm font-semibold text-slate-600 group-hover:text-orange-700">Post Announcement</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: STAFF LIST -->
+        <div id="tab-workers" class="admin-tab p-4 md:p-8" style="display:none;">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <h2 class="text-2xl font-bold text-slate-800">Staff Directory</h2>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-semibold shadow-lg shadow-blue-200 transition flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-plus"></i> Add Staff
+                </button>
+            </div>
+            
+            <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                <div class="p-4 border-b border-slate-100 flex gap-3">
+                    <div class="flex-1 relative">
+                        <i class="fa-solid fa-search absolute left-3 top-3 text-slate-400 text-xs"></i>
+                        <input type="text" placeholder="Filter by name..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-blue-500">
+                    </div>
+                    <button class="px-4 py-2 border border-slate-200 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50"><i class="fa-solid fa-filter mr-2"></i>Filter</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-50 text-slate-500 font-bold uppercase text-xs">
+                            <tr>
+                                <th class="px-6 py-4">Employee</th>
+                                <th class="px-6 py-4">Role</th>
+                                <th class="px-6 py-4">Department</th>
+                                <th class="px-6 py-4">Status</th>
+                                <th class="px-6 py-4 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr class="hover:bg-slate-50 transition">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">DK</div>
+                                        <div>
+                                            <div class="font-bold text-slate-800">Dr. Kachi</div>
+                                            <div class="text-xs text-slate-400">kachi@gouni.edu.ng</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4"><span class="bg-blue-50 text-blue-700 px-2 py-1 rounded border border-blue-100 text-xs font-bold">Lecturer I</span></td>
+                                <td class="px-6 py-4">Computer Science</td>
+                                <td class="px-6 py-4"><span class="text-green-600 font-bold text-xs flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Active</span></td>
+                                <td class="px-6 py-4 text-right">
+                                    <button class="text-slate-400 hover:text-blue-600 p-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                                    <button class="text-slate-400 hover:text-red-500 p-1 ml-2"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50 transition">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <img src="https://i.pravatar.cc/150?u=3" class="w-8 h-8 rounded-full">
+                                        <div>
+                                            <div class="font-bold text-slate-800">Prof. Okeke</div>
+                                            <div class="text-xs text-slate-400">okeke@gouni.edu.ng</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4"><span class="bg-purple-50 text-purple-700 px-2 py-1 rounded border border-purple-100 text-xs font-bold">HOD</span></td>
+                                <td class="px-6 py-4">Political Science</td>
+                                <td class="px-6 py-4"><span class="text-green-600 font-bold text-xs flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Active</span></td>
+                                <td class="px-6 py-4 text-right">
+                                    <button class="text-slate-400 hover:text-blue-600 p-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                                    <button class="text-slate-400 hover:text-red-500 p-1 ml-2"><i class="fa-solid fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: DEPARTMENTS (NEW) -->
+        <div id="tab-departments" class="admin-tab p-4 md:p-8" style="display:none;">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">Faculty & Departments</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Dept Card 1 -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-laptop-code"></i>
+                        </div>
+                        <button class="text-slate-300 hover:text-slate-600"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-800">Computer Science</h3>
+                    <p class="text-sm text-slate-400 mb-4">Faculty of Physical Sciences</p>
+                    <div class="flex items-center justify-between text-sm pt-4 border-t border-slate-50">
+                        <span class="font-semibold text-slate-600">18 Staff Members</span>
+                        <div class="flex -space-x-2">
+                            <div class="w-8 h-8 rounded-full bg-slate-200 border-2 border-white"></div>
+                            <div class="w-8 h-8 rounded-full bg-slate-300 border-2 border-white"></div>
+                            <div class="w-8 h-8 rounded-full bg-slate-100 border-2 border-white flex items-center justify-center text-[10px] font-bold text-slate-500">+16</div>
+                        </div>
+                    </div>
+                </div>
+                 <!-- Dept Card 2 -->
+                 <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-flask"></i>
+                        </div>
+                        <button class="text-slate-300 hover:text-slate-600"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-800">Microbiology</h3>
+                    <p class="text-sm text-slate-400 mb-4">Faculty of Natural Sciences</p>
+                    <div class="flex items-center justify-between text-sm pt-4 border-t border-slate-50">
+                        <span class="font-semibold text-slate-600">12 Staff Members</span>
+                        <div class="flex -space-x-2">
+                            <div class="w-8 h-8 rounded-full bg-slate-200 border-2 border-white"></div>
+                            <div class="w-8 h-8 rounded-full bg-slate-300 border-2 border-white"></div>
+                            <div class="w-8 h-8 rounded-full bg-slate-100 border-2 border-white flex items-center justify-center text-[10px] font-bold text-slate-500">+10</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TAB 4: REQUESTS (UPDATED) -->
+        <div id="tab-requests" class="admin-tab p-4 md:p-8" style="display:none;">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">Leave Requests</h2>
+            
+            <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-slate-50 text-slate-500 font-bold uppercase text-xs">
+                        <tr>
+                            <th class="px-6 py-4">Applicant</th>
+                            <th class="px-6 py-4">Leave Type</th>
+                            <th class="px-6 py-4">Duration</th>
+                            <th class="px-6 py-4">Reason</th>
+                            <th class="px-6 py-4 text-right">Decision</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr class="hover:bg-slate-50 transition" id="req-1">
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-800">Dr. Kachi</div>
+                                <div class="text-xs text-slate-400">Computer Science</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="inline-flex items-center gap-1 bg-amber-50 text-amber-700 px-2 py-1 rounded text-xs font-bold"><i class="fa-solid fa-suitcase"></i> Annual</span></td>
+                            <td class="px-6 py-4 text-slate-600">14 Days <span class="text-xs text-slate-400 block">Start: Aug 12</span></td>
+                            <td class="px-6 py-4 text-slate-500 max-w-xs truncate">Family vacation planned for the summer break.</td>
+                            <td class="px-6 py-4 text-right">
+                                <button onclick="handleRequest('req-1', 'approved')" class="bg-green-100 hover:bg-green-200 text-green-700 px-3 py-1.5 rounded-lg text-xs font-bold transition mr-2">Approve</button>
+                                <button onclick="handleRequest('req-1', 'rejected')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg text-xs font-bold transition">Reject</button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition" id="req-2">
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-slate-800">Mrs. Grace</div>
+                                <div class="text-xs text-slate-400">Admin Dept</div>
+                            </td>
+                            <td class="px-6 py-4"><span class="inline-flex items-center gap-1 bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs font-bold"><i class="fa-solid fa-baby-carriage"></i> Maternity</span></td>
+                            <td class="px-6 py-4 text-slate-600">3 Months <span class="text-xs text-slate-400 block">Start: Sep 01</span></td>
+                            <td class="px-6 py-4 text-slate-500 max-w-xs truncate">Maternity leave request as per university policy.</td>
+                            <td class="px-6 py-4 text-right">
+                                <button onclick="handleRequest('req-2', 'approved')" class="bg-green-100 hover:bg-green-200 text-green-700 px-3 py-1.5 rounded-lg text-xs font-bold transition mr-2">Approve</button>
+                                <button onclick="handleRequest('req-2', 'rejected')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg text-xs font-bold transition">Reject</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 5: SETTINGS -->
+        <div id="tab-settings" class="admin-tab p-4 md:p-8" style="display:none;">
+            <h2 class="text-2xl font-bold text-slate-800 mb-6">Settings</h2>
+            <div class="bg-white p-8 text-center rounded-xl border border-slate-100">
+                <i class="fa-solid fa-gear text-4xl text-slate-200 mb-4"></i>
+                <h3 class="font-bold text-slate-600">System Configuration</h3>
+                <p class="text-slate-400">Global system settings will appear here.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Sidebar Toggle for Mobile
+        function toggleSidebar() {
+            const sidebar = document.getElementById('admin-sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+
+        // Tab Switching Logic
+        function switchAdminTab(tabId, btnElement) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.admin-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+
+            // Reset all sidebar buttons
+            if (btnElement) {
+                const buttons = document.querySelectorAll('.nav-btn');
+                buttons.forEach(btn => {
+                    btn.classList.remove('bg-blue-50', 'text-blue-700');
+                    btn.classList.add('text-slate-500');
+                });
+                
+                // Highlight active button
+                btnElement.classList.remove('text-slate-500');
+                btnElement.classList.add('bg-blue-50', 'text-blue-700');
+            }
+
+            // Update Title
+            const titleMap = {
+                'overview': 'Overview',
+                'workers': 'Staff Management',
+                'departments': 'Departments',
+                'requests': 'Leave Requests',
+                'settings': 'Settings'
+            };
+            // Try to find the title element if it exists in the header (optional)
+            // document.getElementById('page-title').innerText = titleMap[tabId];
+
+            // Close sidebar on mobile after selection
+            if(window.innerWidth < 1024) {
+                toggleSidebar();
+            }
+        }
+
+        // Simulating Approval/Rejection
+        function handleRequest(rowId, action) {
+            const row = document.getElementById(rowId);
+            const cells = row.getElementsByTagName('td');
+            const actionCell = cells[cells.length - 1];
+            
+            if (action === 'approved') {
+                actionCell.innerHTML = `<span class="text-green-600 font-bold text-xs"><i class="fa-solid fa-check"></i> Approved</span>`;
+                row.classList.add('bg-green-50/50');
+            } else {
+                actionCell.innerHTML = `<span class="text-red-500 font-bold text-xs"><i class="fa-solid fa-xmark"></i> Rejected</span>`;
+                row.classList.add('bg-red-50/50');
+            }
+        }
+    </script>
+</body>
+</html>
