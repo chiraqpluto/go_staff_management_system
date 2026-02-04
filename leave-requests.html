@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Management - GOUNI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+    <!-- Navigation/Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 px-4 md:px-8 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <a href="admin-dashboard.html" class="flex items-center gap-2 text-slate-500 hover:text-blue-600 transition text-sm font-bold">
+                <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+            </a>
+            <div class="h-4 w-[1px] bg-slate-300 mx-2"></div>
+            <span class="text-sm font-semibold text-slate-700">HR Management</span>
+        </div>
+        <div class="font-black text-slate-800 tracking-tight text-xl">GOUNI<span class="text-blue-600">Admin</span></div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 md:p-8">
+        
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900">Leave Requests</h1>
+                <p class="text-slate-500 text-sm mt-1">Review, approve, and track staff leave applications.</p>
+            </div>
+            <div class="flex gap-3">
+                <button class="bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 px-4 py-2.5 rounded-xl font-semibold transition text-sm">
+                    <i class="fa-regular fa-calendar mr-2"></i> Leave Calendar
+                </button>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-semibold shadow-lg shadow-blue-200 transition flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-download"></i> Export Report
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                <div class="flex justify-between items-start mb-2">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Pending</div>
+                    <span class="bg-amber-50 text-amber-600 px-2 py-0.5 rounded text-[10px] font-bold">Action Req</span>
+                </div>
+                <div class="text-3xl font-bold text-slate-900">12</div>
+                <p class="text-xs text-slate-400 mt-1">Requests awaiting decision</p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                <div class="flex justify-between items-start mb-2">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">On Leave</div>
+                    <i class="fa-solid fa-plane-departure text-blue-500"></i>
+                </div>
+                <div class="text-3xl font-bold text-slate-900">8</div>
+                <p class="text-xs text-slate-400 mt-1">Staff currently away</p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                <div class="flex justify-between items-start mb-2">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Approved</div>
+                    <i class="fa-solid fa-check-circle text-green-500"></i>
+                </div>
+                <div class="text-3xl font-bold text-slate-900">45</div>
+                <p class="text-xs text-slate-400 mt-1">This semester</p>
+            </div>
+            <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+                <div class="flex justify-between items-start mb-2">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-wider">Rejected</div>
+                    <i class="fa-solid fa-xmark-circle text-red-500"></i>
+                </div>
+                <div class="text-3xl font-bold text-slate-900">3</div>
+                <p class="text-xs text-slate-400 mt-1">Policy violations</p>
+            </div>
+        </div>
+
+        <!-- Requests Table -->
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <!-- Tabs/Filter -->
+            <div class="flex border-b border-slate-100 px-6 pt-4 gap-6">
+                <button class="pb-4 text-sm font-bold text-blue-600 border-b-2 border-blue-600">Pending Requests</button>
+                <button class="pb-4 text-sm font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent hover:border-slate-300 transition">History</button>
+                <button class="pb-4 text-sm font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent hover:border-slate-300 transition">Leave Balances</button>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-slate-50 text-slate-500 font-bold uppercase text-xs">
+                        <tr>
+                            <th class="px-6 py-4">Applicant</th>
+                            <th class="px-6 py-4">Type</th>
+                            <th class="px-6 py-4">Dates</th>
+                            <th class="px-6 py-4">Reason</th>
+                            <th class="px-6 py-4">Attachment</th>
+                            <th class="px-6 py-4 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <!-- Request 1 -->
+                        <tr class="hover:bg-slate-50 transition group" id="req-1">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">DK</div>
+                                    <div>
+                                        <div class="font-bold text-slate-800">Dr. Kachi</div>
+                                        <div class="text-xs text-slate-400">Comp. Science</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4"><span class="inline-flex items-center gap-1 bg-amber-50 text-amber-700 px-2 py-1 rounded text-xs font-bold">Annual</span></td>
+                            <td class="px-6 py-4">
+                                <div class="text-slate-800 font-semibold">14 Days</div>
+                                <div class="text-xs text-slate-400">Aug 12 - Aug 26</div>
+                            </td>
+                            <td class="px-6 py-4 text-slate-500 max-w-xs truncate">Family vacation planned for the summer.</td>
+                            <td class="px-6 py-4">
+                                <span class="text-slate-400 text-xs italic">None</span>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <div class="action-buttons flex justify-end gap-2">
+                                    <button onclick="processRequest('req-1', 'approved')" class="bg-green-100 hover:bg-green-200 text-green-700 px-3 py-1.5 rounded-lg text-xs font-bold transition">Approve</button>
+                                    <button onclick="processRequest('req-1', 'rejected')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg text-xs font-bold transition">Reject</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Request 2 -->
+                        <tr class="hover:bg-slate-50 transition group" id="req-2">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <img src="https://i.pravatar.cc/150?u=5" class="w-8 h-8 rounded-full">
+                                    <div>
+                                        <div class="font-bold text-slate-800">Mrs. Grace</div>
+                                        <div class="text-xs text-slate-400">Bursary</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4"><span class="inline-flex items-center gap-1 bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs font-bold">Maternity</span></td>
+                            <td class="px-6 py-4">
+                                <div class="text-slate-800 font-semibold">3 Months</div>
+                                <div class="text-xs text-slate-400">Sep 01 - Dec 01</div>
+                            </td>
+                            <td class="px-6 py-4 text-slate-500 max-w-xs truncate">Maternity leave request.</td>
+                            <td class="px-6 py-4">
+                                <a href="#" class="text-blue-600 text-xs font-bold hover:underline"><i class="fa-solid fa-paperclip"></i> Doctor_Report.pdf</a>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <div class="action-buttons flex justify-end gap-2">
+                                    <button onclick="processRequest('req-2', 'approved')" class="bg-green-100 hover:bg-green-200 text-green-700 px-3 py-1.5 rounded-lg text-xs font-bold transition">Approve</button>
+                                    <button onclick="processRequest('req-2', 'rejected')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg text-xs font-bold transition">Reject</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Request 3 -->
+                        <tr class="hover:bg-slate-50 transition group" id="req-3">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold text-xs">CN</div>
+                                    <div>
+                                        <div class="font-bold text-slate-800">Chinedu N.</div>
+                                        <div class="text-xs text-slate-400">Admin Dept</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4"><span class="inline-flex items-center gap-1 bg-purple-50 text-purple-700 px-2 py-1 rounded text-xs font-bold">Casual</span></td>
+                            <td class="px-6 py-4">
+                                <div class="text-slate-800 font-semibold">2 Days</div>
+                                <div class="text-xs text-slate-400">Oct 20 - Oct 21</div>
+                            </td>
+                            <td class="px-6 py-4 text-slate-500 max-w-xs truncate">Personal family matters.</td>
+                            <td class="px-6 py-4">
+                                <span class="text-slate-400 text-xs italic">None</span>
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <div class="action-buttons flex justify-end gap-2">
+                                    <button onclick="processRequest('req-3', 'approved')" class="bg-green-100 hover:bg-green-200 text-green-700 px-3 py-1.5 rounded-lg text-xs font-bold transition">Approve</button>
+                                    <button onclick="processRequest('req-3', 'rejected')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg text-xs font-bold transition">Reject</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function processRequest(rowId, action) {
+            const row = document.getElementById(rowId);
+            const actionContainer = row.querySelector('.action-buttons').parentElement;
+            
+            // Visual feedback simulation
+            if (action === 'approved') {
+                actionContainer.innerHTML = `<span class="inline-flex items-center gap-1 text-green-600 font-bold text-xs bg-green-50 px-3 py-1.5 rounded-lg animate-pulse"><i class="fa-solid fa-check"></i> Approved</span>`;
+                setTimeout(() => { actionContainer.querySelector('span').classList.remove('animate-pulse'); }, 500);
+                row.classList.add('bg-green-50/30');
+            } else {
+                actionContainer.innerHTML = `<span class="inline-flex items-center gap-1 text-red-600 font-bold text-xs bg-red-50 px-3 py-1.5 rounded-lg animate-pulse"><i class="fa-solid fa-xmark"></i> Rejected</span>`;
+                setTimeout(() => { actionContainer.querySelector('span').classList.remove('animate-pulse'); }, 500);
+                row.classList.add('bg-red-50/30');
+            }
+        }
+    </script>
+</body>
+</html>

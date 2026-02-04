@@ -72,7 +72,7 @@
             <button onclick="switchAdminTab('overview', this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold bg-blue-50 text-blue-700 transition">
                 <i class="fa-solid fa-table-columns w-5 text-center"></i> Overview
             </button>
-            <button onclick="switchAdminTab('workers', this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition">
+            <button onclick="window.location.href='staff-list.html'" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition">
                 <i class="fa-solid fa-users w-5 text-center"></i> Staff List
             </button>
             <button onclick="switchAdminTab('departments', this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition">
@@ -94,7 +94,7 @@
             <button onclick="window.location.href='performance-appraisals.html'" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition">
                 <i class="fa-solid fa-chart-line w-5 text-center"></i> Performance
             </button>
-            <button onclick="switchAdminTab('requests', this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition">
+            <button onclick="window.location.href='leave-requests.html'" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition">
                 <i class="fa-solid fa-envelope-open-text w-5 text-center"></i> Leave Requests
             </button>
             <button onclick="switchAdminTab('settings', this)" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition">
@@ -223,7 +223,7 @@
                 <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
                     <h3 class="font-bold text-slate-800 text-lg mb-4">Quick Actions</h3>
                     <div class="space-y-3">
-                        <button onclick="switchAdminTab('workers')" class="w-full flex items-center gap-3 p-3 rounded-xl border border-slate-100 hover:border-blue-500 hover:bg-blue-50 transition text-left group">
+                        <button onclick="window.location.href='staff-list.html'" class="w-full flex items-center gap-3 p-3 rounded-xl border border-slate-100 hover:border-blue-500 hover:bg-blue-50 transition text-left group">
                             <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition">
                                 <i class="fa-solid fa-user-plus text-xs"></i>
                             </div>
@@ -242,77 +242,6 @@
                             <span class="text-sm font-semibold text-slate-600 group-hover:text-orange-700">Post Announcement</span>
                         </button>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 2: STAFF LIST -->
-        <div id="tab-workers" class="admin-tab p-4 md:p-8" style="display:none;">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-                <h2 class="text-2xl font-bold text-slate-800">Staff Directory</h2>
-                <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-semibold shadow-lg shadow-blue-200 transition flex items-center gap-2 text-sm">
-                    <i class="fa-solid fa-plus"></i> Add Staff
-                </button>
-            </div>
-            
-            <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                <div class="p-4 border-b border-slate-100 flex gap-3">
-                    <div class="flex-1 relative">
-                        <i class="fa-solid fa-search absolute left-3 top-3 text-slate-400 text-xs"></i>
-                        <input type="text" placeholder="Filter by name..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-blue-500">
-                    </div>
-                    <button class="px-4 py-2 border border-slate-200 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-50"><i class="fa-solid fa-filter mr-2"></i>Filter</button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm">
-                        <thead class="bg-slate-50 text-slate-500 font-bold uppercase text-xs">
-                            <tr>
-                                <th class="px-6 py-4">Employee</th>
-                                <th class="px-6 py-4">Role</th>
-                                <th class="px-6 py-4">Department</th>
-                                <th class="px-6 py-4">Status</th>
-                                <th class="px-6 py-4 text-right">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-100">
-                            <tr class="hover:bg-slate-50 transition">
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3 group cursor-pointer" onclick="window.location.href='staff-profile.html'">
-                                        <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs group-hover:bg-blue-600 group-hover:text-white transition">DK</div>
-                                        <div>
-                                            <div class="font-bold text-slate-800 group-hover:text-blue-600 transition">Dr. Kachi</div>
-                                            <div class="text-xs text-slate-400">kachi@gouni.edu.ng</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4"><span class="bg-blue-50 text-blue-700 px-2 py-1 rounded border border-blue-100 text-xs font-bold">Lecturer I</span></td>
-                                <td class="px-6 py-4">Computer Science</td>
-                                <td class="px-6 py-4"><span class="text-green-600 font-bold text-xs flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Active</span></td>
-                                <td class="px-6 py-4 text-right">
-                                    <button class="text-slate-400 hover:text-blue-600 p-1"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button class="text-slate-400 hover:text-red-500 p-1 ml-2"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr class="hover:bg-slate-50 transition">
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center gap-3">
-                                        <img src="https://i.pravatar.cc/150?u=3" class="w-8 h-8 rounded-full">
-                                        <div>
-                                            <div class="font-bold text-slate-800">Prof. Okeke</div>
-                                            <div class="text-xs text-slate-400">okeke@gouni.edu.ng</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4"><span class="bg-purple-50 text-purple-700 px-2 py-1 rounded border border-purple-100 text-xs font-bold">HOD</span></td>
-                                <td class="px-6 py-4">Political Science</td>
-                                <td class="px-6 py-4"><span class="text-green-600 font-bold text-xs flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Active</span></td>
-                                <td class="px-6 py-4 text-right">
-                                    <button class="text-slate-400 hover:text-blue-600 p-1"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button class="text-slate-400 hover:text-red-500 p-1 ml-2"><i class="fa-solid fa-trash"></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
@@ -362,53 +291,6 @@
             </div>
         </div>
         
-        <!-- TAB 4: REQUESTS (UPDATED) -->
-        <div id="tab-requests" class="admin-tab p-4 md:p-8" style="display:none;">
-            <h2 class="text-2xl font-bold text-slate-800 mb-6">Leave Requests</h2>
-            
-            <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                <table class="w-full text-left text-sm">
-                    <thead class="bg-slate-50 text-slate-500 font-bold uppercase text-xs">
-                        <tr>
-                            <th class="px-6 py-4">Applicant</th>
-                            <th class="px-6 py-4">Leave Type</th>
-                            <th class="px-6 py-4">Duration</th>
-                            <th class="px-6 py-4">Reason</th>
-                            <th class="px-6 py-4 text-right">Decision</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-100">
-                        <tr class="hover:bg-slate-50 transition" id="req-1">
-                            <td class="px-6 py-4">
-                                <div class="font-bold text-slate-800">Dr. Kachi</div>
-                                <div class="text-xs text-slate-400">Computer Science</div>
-                            </td>
-                            <td class="px-6 py-4"><span class="inline-flex items-center gap-1 bg-amber-50 text-amber-700 px-2 py-1 rounded text-xs font-bold"><i class="fa-solid fa-suitcase"></i> Annual</span></td>
-                            <td class="px-6 py-4 text-slate-600">14 Days <span class="text-xs text-slate-400 block">Start: Aug 12</span></td>
-                            <td class="px-6 py-4 text-slate-500 max-w-xs truncate">Family vacation planned for the summer break.</td>
-                            <td class="px-6 py-4 text-right">
-                                <button onclick="handleRequest('req-1', 'approved')" class="bg-green-100 hover:bg-green-200 text-green-700 px-3 py-1.5 rounded-lg text-xs font-bold transition mr-2">Approve</button>
-                                <button onclick="handleRequest('req-1', 'rejected')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg text-xs font-bold transition">Reject</button>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-slate-50 transition" id="req-2">
-                            <td class="px-6 py-4">
-                                <div class="font-bold text-slate-800">Mrs. Grace</div>
-                                <div class="text-xs text-slate-400">Admin Dept</div>
-                            </td>
-                            <td class="px-6 py-4"><span class="inline-flex items-center gap-1 bg-blue-50 text-blue-700 px-2 py-1 rounded text-xs font-bold"><i class="fa-solid fa-baby-carriage"></i> Maternity</span></td>
-                            <td class="px-6 py-4 text-slate-600">3 Months <span class="text-xs text-slate-400 block">Start: Sep 01</span></td>
-                            <td class="px-6 py-4 text-slate-500 max-w-xs truncate">Maternity leave request as per university policy.</td>
-                            <td class="px-6 py-4 text-right">
-                                <button onclick="handleRequest('req-2', 'approved')" class="bg-green-100 hover:bg-green-200 text-green-700 px-3 py-1.5 rounded-lg text-xs font-bold transition mr-2">Approve</button>
-                                <button onclick="handleRequest('req-2', 'rejected')" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg text-xs font-bold transition">Reject</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
         <!-- TAB 5: SETTINGS -->
         <div id="tab-settings" class="admin-tab p-4 md:p-8" style="display:none;">
             <h2 class="text-2xl font-bold text-slate-800 mb-6">Settings</h2>
@@ -449,35 +331,9 @@
                 btnElement.classList.add('bg-blue-50', 'text-blue-700');
             }
 
-            // Update Title
-            const titleMap = {
-                'overview': 'Overview',
-                'workers': 'Staff Management',
-                'departments': 'Departments',
-                'requests': 'Leave Requests',
-                'settings': 'Settings'
-            };
-            // Try to find the title element if it exists in the header (optional)
-            // document.getElementById('page-title').innerText = titleMap[tabId];
-
             // Close sidebar on mobile after selection
             if(window.innerWidth < 1024) {
                 toggleSidebar();
-            }
-        }
-
-        // Simulating Approval/Rejection
-        function handleRequest(rowId, action) {
-            const row = document.getElementById(rowId);
-            const cells = row.getElementsByTagName('td');
-            const actionCell = cells[cells.length - 1];
-            
-            if (action === 'approved') {
-                actionCell.innerHTML = `<span class="text-green-600 font-bold text-xs"><i class="fa-solid fa-check"></i> Approved</span>`;
-                row.classList.add('bg-green-50/50');
-            } else {
-                actionCell.innerHTML = `<span class="text-red-500 font-bold text-xs"><i class="fa-solid fa-xmark"></i> Rejected</span>`;
-                row.classList.add('bg-red-50/50');
             }
         }
     </script>
