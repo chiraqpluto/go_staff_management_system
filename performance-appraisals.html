@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance & Appraisals - GOUNI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .appraisal-tab { display: none; }
+        .appraisal-tab.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .progress-bar { transition: width 1s ease-in-out; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+    <!-- Navigation/Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 px-4 md:px-8 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <a href="admin-dashboard.html" class="flex items-center gap-2 text-slate-500 hover:text-blue-600 transition text-sm font-bold">
+                <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+            </a>
+            <div class="h-4 w-[1px] bg-slate-300 mx-2"></div>
+            <span class="text-sm font-semibold text-slate-700">Human Resources</span>
+        </div>
+        <div class="font-black text-slate-800 tracking-tight text-xl">GOUNI<span class="text-blue-600">Admin</span></div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 md:p-8">
+        
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900">Performance & Appraisals</h1>
+                <p class="text-slate-500 text-sm mt-1">Annual reviews, KPI tracking, and promotion management.</p>
+            </div>
+            <div class="flex gap-3">
+                <button class="bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 px-4 py-2.5 rounded-xl font-semibold transition text-sm">
+                    <i class="fa-solid fa-download mr-2"></i> Report
+                </button>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-semibold shadow-lg shadow-blue-200 transition flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-plus"></i> New Cycle
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden">
+                <div class="absolute right-0 top-0 p-4 opacity-5">
+                    <i class="fa-solid fa-chart-line text-6xl text-slate-800"></i>
+                </div>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Avg. Performance Score</p>
+                <div class="text-3xl font-bold text-slate-900">4.2<span class="text-lg text-slate-400 font-normal">/5.0</span></div>
+                <div class="w-full bg-slate-100 h-1.5 rounded-full mt-3">
+                    <div class="bg-green-500 h-1.5 rounded-full" style="width: 84%"></div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden">
+                <div class="absolute right-0 top-0 p-4 opacity-5">
+                    <i class="fa-solid fa-user-check text-6xl text-slate-800"></i>
+                </div>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Pending Peer Reviews</p>
+                <div class="text-3xl font-bold text-slate-900">28</div>
+                <div class="flex items-center gap-2 mt-2">
+                    <span class="bg-amber-50 text-amber-600 text-xs font-bold px-2 py-0.5 rounded-full">Due in 5 days</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden">
+                <div class="absolute right-0 top-0 p-4 opacity-5">
+                    <i class="fa-solid fa-medal text-6xl text-slate-800"></i>
+                </div>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Eligible for Promotion</p>
+                <div class="text-3xl font-bold text-blue-600">14</div>
+                <div class="flex items-center gap-2 mt-2">
+                    <span class="text-xs text-slate-400">Based on KPI > 4.5</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="flex gap-4 border-b border-slate-200 mb-6 overflow-x-auto pb-1">
+            <button onclick="switchTab('kpi', this)" class="tab-btn active px-4 py-2 text-sm font-bold text-blue-600 border-b-2 border-blue-600 transition whitespace-nowrap">
+                <i class="fa-solid fa-chart-pie mr-2"></i> KPI Tracking
+            </button>
+            <button onclick="switchTab('reviews', this)" class="tab-btn px-4 py-2 text-sm font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent hover:border-slate-300 transition whitespace-nowrap">
+                <i class="fa-solid fa-users-viewfinder mr-2"></i> Peer Reviews
+            </button>
+            <button onclick="switchTab('promo', this)" class="tab-btn px-4 py-2 text-sm font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent hover:border-slate-300 transition whitespace-nowrap">
+                <i class="fa-solid fa-award mr-2"></i> Promotions
+            </button>
+        </div>
+
+        <!-- Content Area -->
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm min-h-[400px]">
+            
+            <!-- TAB 1: KPI Tracking -->
+            <div id="tab-kpi" class="appraisal-tab active p-0">
+                <div class="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-2xl">
+                    <h3 class="font-bold text-slate-700 text-sm uppercase tracking-wide">Staff Performance Indicators (2025)</h3>
+                    <div class="flex gap-2">
+                        <input type="text" placeholder="Filter staff..." class="text-xs px-3 py-1.5 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 w-64">
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-50 text-slate-500 font-bold uppercase text-xs">
+                            <tr>
+                                <th class="px-6 py-4">Staff Member</th>
+                                <th class="px-6 py-4">Teaching (40%)</th>
+                                <th class="px-6 py-4">Research (40%)</th>
+                                <th class="px-6 py-4">Service (20%)</th>
+                                <th class="px-6 py-4 text-right">Total Score</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr class="hover:bg-slate-50">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">DK</div>
+                                        <div>
+                                            <div class="font-bold text-slate-800">Dr. Kachi</div>
+                                            <div class="text-xs text-slate-400">Computer Science</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-bold w-6">4.8</span>
+                                        <div class="w-20 bg-slate-100 h-1.5 rounded-full"><div class="bg-blue-500 h-1.5 rounded-full" style="width: 96%"></div></div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-bold w-6">4.5</span>
+                                        <div class="w-20 bg-slate-100 h-1.5 rounded-full"><div class="bg-purple-500 h-1.5 rounded-full" style="width: 90%"></div></div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-bold w-6">4.0</span>
+                                        <div class="w-20 bg-slate-100 h-1.5 rounded-full"><div class="bg-amber-500 h-1.5 rounded-full" style="width: 80%"></div></div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-right font-bold text-lg text-slate-800">4.62</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-3">
+                                        <img src="https://i.pravatar.cc/150?u=3" class="w-8 h-8 rounded-full">
+                                        <div>
+                                            <div class="font-bold text-slate-800">Prof. Okeke</div>
+                                            <div class="text-xs text-slate-400">Political Science</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-bold w-6">4.9</span>
+                                        <div class="w-20 bg-slate-100 h-1.5 rounded-full"><div class="bg-blue-500 h-1.5 rounded-full" style="width: 98%"></div></div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-bold w-6">4.8</span>
+                                        <div class="w-20 bg-slate-100 h-1.5 rounded-full"><div class="bg-purple-500 h-1.5 rounded-full" style="width: 96%"></div></div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-bold w-6">4.7</span>
+                                        <div class="w-20 bg-slate-100 h-1.5 rounded-full"><div class="bg-amber-500 h-1.5 rounded-full" style="width: 94%"></div></div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-right font-bold text-lg text-slate-800">4.82</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 2: Peer Reviews -->
+            <div id="tab-reviews" class="appraisal-tab p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-bold text-slate-800">Pending Reviews</h3>
+                    <button class="text-sm text-blue-600 font-bold hover:underline">View All History</button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Review Card 1 -->
+                    <div class="border border-slate-200 rounded-xl p-4 hover:shadow-md transition bg-white">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold">CN</div>
+                                <div>
+                                    <p class="text-sm font-bold text-slate-800">Chinedu N.</p>
+                                    <p class="text-xs text-slate-400">Admin Assistant</p>
+                                </div>
+                            </div>
+                            <span class="bg-red-50 text-red-600 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Overdue</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4">Annual administrative performance review for 2024 session.</p>
+                        <div class="flex gap-2">
+                            <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 rounded-lg transition">Start Review</button>
+                            <button class="flex-1 border border-slate-200 hover:bg-slate-50 text-slate-600 text-xs font-bold py-2 rounded-lg transition">Remind</button>
+                        </div>
+                    </div>
+
+                    <!-- Review Card 2 -->
+                    <div class="border border-slate-200 rounded-xl p-4 hover:shadow-md transition bg-white">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="flex items-center gap-3">
+                                <img src="https://i.pravatar.cc/150?u=5" class="w-10 h-10 rounded-full">
+                                <div>
+                                    <p class="text-sm font-bold text-slate-800">Mrs. Grace</p>
+                                    <p class="text-xs text-slate-400">Bursary Dept</p>
+                                </div>
+                            </div>
+                            <span class="bg-amber-50 text-amber-600 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Due: Oct 15</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4">Financial compliance and department efficiency review.</p>
+                        <div class="flex gap-2">
+                            <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 rounded-lg transition">Start Review</button>
+                            <button class="flex-1 border border-slate-200 hover:bg-slate-50 text-slate-600 text-xs font-bold py-2 rounded-lg transition">Delegate</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: Promotions -->
+            <div id="tab-promo" class="appraisal-tab p-0">
+                <div class="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-2xl">
+                    <h3 class="font-bold text-slate-700 text-sm uppercase tracking-wide">Promotion Eligibility List</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-50 text-slate-500 font-bold uppercase text-xs">
+                            <tr>
+                                <th class="px-6 py-4">Staff Member</th>
+                                <th class="px-6 py-4">Current Role</th>
+                                <th class="px-6 py-4">Proposed Role</th>
+                                <th class="px-6 py-4">Avg Score</th>
+                                <th class="px-6 py-4 text-right">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr class="hover:bg-slate-50">
+                                <td class="px-6 py-4 font-bold text-slate-800">Dr. Kachi</td>
+                                <td class="px-6 py-4 text-slate-500">Lecturer I</td>
+                                <td class="px-6 py-4 text-slate-800 font-semibold">Senior Lecturer</td>
+                                <td class="px-6 py-4 text-green-600 font-bold">4.62</td>
+                                <td class="px-6 py-4 text-right">
+                                    <span class="inline-flex items-center gap-1 bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">
+                                        <i class="fa-solid fa-check-circle"></i> Eligible
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="px-6 py-4 font-bold text-slate-800">Mr. Okafor</td>
+                                <td class="px-6 py-4 text-slate-500">Asst. Lecturer</td>
+                                <td class="px-6 py-4 text-slate-800 font-semibold">Lecturer II</td>
+                                <td class="px-6 py-4 text-amber-600 font-bold">3.85</td>
+                                <td class="px-6 py-4 text-right">
+                                    <span class="inline-flex items-center gap-1 bg-slate-100 text-slate-500 px-3 py-1 rounded-full text-xs font-bold">
+                                        <i class="fa-solid fa-clock"></i> Not Eligible
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        function switchTab(tabName, btn) {
+            // Hide all tabs
+            document.querySelectorAll('.appraisal-tab').forEach(el => el.classList.remove('active'));
+            // Show selected tab
+            document.getElementById('tab-' + tabName).classList.add('active');
+            
+            // Reset buttons
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('text-blue-600', 'border-blue-600', 'active');
+                el.classList.add('text-slate-500', 'border-transparent', 'hover:text-slate-800');
+            });
+
+            // Activate button
+            btn.classList.remove('text-slate-500', 'border-transparent', 'hover:text-slate-800');
+            btn.classList.add('text-blue-600', 'border-blue-600', 'active');
+        }
+    </script>
+</body>
+</html>

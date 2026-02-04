@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic & Research Repository - GOUNI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .repo-tab { display: none; }
+        .repo-tab.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+    <!-- Navigation/Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 px-4 md:px-8 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <a href="admin-dashboard.html" class="flex items-center gap-2 text-slate-500 hover:text-blue-600 transition text-sm font-bold">
+                <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+            </a>
+            <div class="h-4 w-[1px] bg-slate-300 mx-2"></div>
+            <span class="text-sm font-semibold text-slate-700">Academic Affairs</span>
+        </div>
+        <div class="font-black text-slate-800 tracking-tight text-xl">GOUNI<span class="text-blue-600">Admin</span></div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 md:p-8">
+        
+        <!-- Page Header -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900">Academic & Research Repository</h1>
+                <p class="text-slate-500 text-sm mt-1">Track publications, manage research grants, and oversee course allocations.</p>
+            </div>
+            <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-semibold shadow-lg shadow-blue-200 transition flex items-center gap-2 text-sm">
+                <i class="fa-solid fa-plus"></i> New Entry
+            </button>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden">
+                <div class="absolute right-0 top-0 p-4 opacity-5">
+                    <i class="fa-solid fa-book-journal-whills text-6xl text-slate-800"></i>
+                </div>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Total Publications</p>
+                <div class="text-3xl font-bold text-slate-900">142</div>
+                <div class="flex items-center gap-2 mt-2">
+                    <span class="bg-green-50 text-green-600 text-xs font-bold px-2 py-0.5 rounded-full">+8</span>
+                    <span class="text-xs text-slate-400">this semester</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden">
+                <div class="absolute right-0 top-0 p-4 opacity-5">
+                    <i class="fa-solid fa-hand-holding-dollar text-6xl text-slate-800"></i>
+                </div>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Active Research Grants</p>
+                <div class="text-3xl font-bold text-slate-900">₦ 85.4M</div>
+                <div class="flex items-center gap-2 mt-2">
+                    <span class="text-xs text-slate-400">Across 6 major projects</span>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm relative overflow-hidden">
+                <div class="absolute right-0 top-0 p-4 opacity-5">
+                    <i class="fa-solid fa-chalkboard-user text-6xl text-slate-800"></i>
+                </div>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Courses Allocated</p>
+                <div class="text-3xl font-bold text-blue-600">315</div>
+                <div class="flex items-center gap-2 mt-2">
+                    <span class="bg-amber-50 text-amber-600 text-xs font-bold px-2 py-0.5 rounded-full">12 Unassigned</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="flex gap-4 border-b border-slate-200 mb-6 overflow-x-auto pb-1">
+            <button onclick="switchTab('pubs', this)" class="tab-btn active px-4 py-2 text-sm font-bold text-blue-600 border-b-2 border-blue-600 transition whitespace-nowrap">
+                <i class="fa-solid fa-book mr-2"></i> Publications
+            </button>
+            <button onclick="switchTab('grants', this)" class="tab-btn px-4 py-2 text-sm font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent hover:border-slate-300 transition whitespace-nowrap">
+                <i class="fa-solid fa-money-bill-trend-up mr-2"></i> Research Grants
+            </button>
+            <button onclick="switchTab('courses', this)" class="tab-btn px-4 py-2 text-sm font-bold text-slate-500 hover:text-slate-800 border-b-2 border-transparent hover:border-slate-300 transition whitespace-nowrap">
+                <i class="fa-solid fa-chalkboard mr-2"></i> Course Allocation
+            </button>
+        </div>
+
+        <!-- Content Area -->
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm min-h-[400px]">
+            
+            <!-- TAB 1: Publications -->
+            <div id="tab-pubs" class="repo-tab active p-0">
+                <div class="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-2xl">
+                    <h3 class="font-bold text-slate-700 text-sm uppercase tracking-wide">Recent Research Output</h3>
+                    <div class="flex gap-2">
+                        <input type="text" placeholder="Search title or author..." class="text-xs px-3 py-1.5 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 w-64">
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-50 text-slate-500 font-bold uppercase text-xs">
+                            <tr>
+                                <th class="px-6 py-4">Title</th>
+                                <th class="px-6 py-4">Author(s)</th>
+                                <th class="px-6 py-4">Journal/Conference</th>
+                                <th class="px-6 py-4">Year</th>
+                                <th class="px-6 py-4 text-right">Link</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr class="hover:bg-slate-50">
+                                <td class="px-6 py-4 font-bold text-slate-800">AI Models in African Agriculture</td>
+                                <td class="px-6 py-4 text-slate-600">Dr. Kachi, Prof. Okeke</td>
+                                <td class="px-6 py-4 text-blue-600">Intl. Journal of Comp. Sci.</td>
+                                <td class="px-6 py-4">2024</td>
+                                <td class="px-6 py-4 text-right"><a href="#" class="text-slate-400 hover:text-blue-600"><i class="fa-solid fa-external-link-alt"></i></a></td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="px-6 py-4 font-bold text-slate-800">Political Stability in West Africa</td>
+                                <td class="px-6 py-4 text-slate-600">Prof. Okeke</td>
+                                <td class="px-6 py-4 text-blue-600">African Pol. Sci. Review</td>
+                                <td class="px-6 py-4">2023</td>
+                                <td class="px-6 py-4 text-right"><a href="#" class="text-slate-400 hover:text-blue-600"><i class="fa-solid fa-external-link-alt"></i></a></td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="px-6 py-4 font-bold text-slate-800">Microbial Resistance Patterns</td>
+                                <td class="px-6 py-4 text-slate-600">Dr. Amadi</td>
+                                <td class="px-6 py-4 text-blue-600">Journal of Microbiology</td>
+                                <td class="px-6 py-4">2024</td>
+                                <td class="px-6 py-4 text-right"><a href="#" class="text-slate-400 hover:text-blue-600"><i class="fa-solid fa-external-link-alt"></i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 2: Grants -->
+            <div id="tab-grants" class="repo-tab p-0">
+                <div class="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-2xl">
+                    <h3 class="font-bold text-slate-700 text-sm uppercase tracking-wide">Grant Management</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-50 text-slate-500 font-bold uppercase text-xs">
+                            <tr>
+                                <th class="px-6 py-4">Project Title</th>
+                                <th class="px-6 py-4">Lead Researcher</th>
+                                <th class="px-6 py-4">Funding Body</th>
+                                <th class="px-6 py-4">Amount</th>
+                                <th class="px-6 py-4">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr class="hover:bg-slate-50">
+                                <td class="px-6 py-4 font-bold text-slate-800">Sustainable Energy Systems</td>
+                                <td class="px-6 py-4">Engr. Nnamdi</td>
+                                <td class="px-6 py-4">TETFund</td>
+                                <td class="px-6 py-4 font-mono">₦ 35,000,000</td>
+                                <td class="px-6 py-4"><span class="bg-green-50 text-green-700 px-2 py-1 rounded text-xs font-bold">Active</span></td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="px-6 py-4 font-bold text-slate-800">Digital Literacy Initiative</td>
+                                <td class="px-6 py-4">Dr. Kachi</td>
+                                <td class="px-6 py-4">Google Research</td>
+                                <td class="px-6 py-4 font-mono">$ 25,000</td>
+                                <td class="px-6 py-4"><span class="bg-amber-50 text-amber-700 px-2 py-1 rounded text-xs font-bold">Pending Review</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 3: Courses -->
+            <div id="tab-courses" class="repo-tab p-0">
+                <div class="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-2xl">
+                    <h3 class="font-bold text-slate-700 text-sm uppercase tracking-wide">Course Allocations (2025/2026)</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-slate-50 text-slate-500 font-bold uppercase text-xs">
+                            <tr>
+                                <th class="px-6 py-4">Course Code</th>
+                                <th class="px-6 py-4">Course Title</th>
+                                <th class="px-6 py-4">Assigned To</th>
+                                <th class="px-6 py-4">Department</th>
+                                <th class="px-6 py-4">Students</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr class="hover:bg-slate-50">
+                                <td class="px-6 py-4 font-bold text-slate-800">CSC 401</td>
+                                <td class="px-6 py-4">Artificial Intelligence</td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-[10px] font-bold">DK</div>
+                                        <span>Dr. Kachi</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">Computer Science</td>
+                                <td class="px-6 py-4">45</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="px-6 py-4 font-bold text-slate-800">POL 202</td>
+                                <td class="px-6 py-4">Intro to Political Theory</td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center gap-2">
+                                        <img src="https://i.pravatar.cc/150?u=3" class="w-6 h-6 rounded-full">
+                                        <span>Prof. Okeke</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">Political Science</td>
+                                <td class="px-6 py-4">120</td>
+                            </tr>
+                             <tr class="hover:bg-slate-50">
+                                <td class="px-6 py-4 font-bold text-slate-800">MCB 301</td>
+                                <td class="px-6 py-4">General Microbiology</td>
+                                <td class="px-6 py-4"><span class="text-red-500 italic font-medium">Unassigned</span></td>
+                                <td class="px-6 py-4">Microbiology</td>
+                                <td class="px-6 py-4">85</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        function switchTab(tabName, btn) {
+            // Hide all tabs
+            document.querySelectorAll('.repo-tab').forEach(el => el.classList.remove('active'));
+            // Show selected tab
+            document.getElementById('tab-' + tabName).classList.add('active');
+            
+            // Reset buttons
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('text-blue-600', 'border-blue-600', 'active');
+                el.classList.add('text-slate-500', 'border-transparent', 'hover:text-slate-800');
+            });
+
+            // Activate button
+            btn.classList.remove('text-slate-500', 'border-transparent', 'hover:text-slate-800');
+            btn.classList.add('text-blue-600', 'border-blue-600', 'active');
+        }
+    </script>
+</body>
+</html>
